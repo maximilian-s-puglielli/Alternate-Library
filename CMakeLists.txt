@@ -19,9 +19,22 @@
 ### AUTHOR:  Maximilian S Puglielli (MSP)
 ### CREATED: 2021.01.06
 
-### VS Code Settings
-.vscode
-.vscode/**
+cmake_minimum_required( VERSION 3.19.2 )
 
-### CMake Files & Directories
-build/**
+project( AlternateLibrary VERSION 1.0.0 )
+
+include_directories( Keywords )
+include_directories( Types )
+
+include_directories( Exceptions )
+
+include_directories( Allocator )
+
+include_directories( Vector )
+
+include_directories( UniquePointer )
+include_directories( ArrayPointer )
+
+add_subdirectory( u128 )
+
+add_subdirectory( Main )

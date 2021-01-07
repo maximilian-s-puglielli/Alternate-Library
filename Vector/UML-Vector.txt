@@ -1,0 +1,97 @@
+Copyright (C) 2021 Maximilian S Puglielli (MSP)
+
+The full copyright license belonging to this repository may be found in the
+parent directory in the file named 'LICENSE'.
+
+This program is free software: you can redistribute it and/or modify it
+under the terms of the GNU General Public License as published by the Free
+Software Foundation, either version 3 of the License, or (at your option)
+any later version.
+
+This program is distributed in the hope that it will be useful, but WITHOUT
+ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
+more details.
+
+You should have received a copy of the GNU General Public License along with
+this program.  If not, see <https://www.gnu.org/licenses/>.
+
+AUTHOR:  Maximilian S Puglielli (MSP)
+CREATED: 2021.01.06
+
+
+
+THIS FILE NEEDS WORK - IT IS VERY MUCH OUT OF DATE
+
+
+
+TEMPLATE CLASS alt::Vector<DataType, Allocator = alt::Allocator<DataType>>
+================================================================================
+  - _errno:     unsigned char      // current errno for this Vector
+  - _count:     unsigned int       // number of elements in the array
+  - _length:    unsigned int       // length of the array
+  - _growth:    unsigned short int // growth percentage for amortized analysis
+  - _allocator: Allocator          // memory allocator
+  - _array:     DataType*          // actual array this Vector contains
+================================================================================
+/// ERRNO
+  + inline errno(void): unsigned int
+
+/// CONSTRUCTORS & DESTRUCTORS
+  + Vector()  // default constructor
+  + ~Vector() // destructor
+
+/// ASSIGNMENT
+  + Vector(that: const Vector&) // copy constructor
+  + Vector(that: Vector&&) // move constructor
+  + operator = (that: const Vector&): Vector&
+
+/// SIZE & CAPACITY ACCESSORS
+  + inline size     (void): unsigned int
+  + inline capacity (void): unsigned int
+  + inline empty    (void): bool
+  + inline full     (void): bool
+
+/// SIZE & CAPACITY MODIFIERS
+  + inline grow     (void):                      void
+  + inline grow     (newCapacity: unsigned int): void
+  + inline shrink   (void):                      void
+  + inline shrink   (newCapacity: unsigned int): void
+  + inline truncate (newCapacity: unsigned int): void
+  +        resize   (newCapacity: unsigned int): void
+
+/// MEMORY ACCESSORS & MODIFIERS
+  + inline at          (index: unsigned int, rtn: DataType&): bool
+  + inline operator [] (index: unsigned int):                 DataType&
+
+/// SEARCH METHODS
+  + contains    (x: const DataType&): bool
+  + indexOf     (x: const DataType&): int
+  + lastIndexOf (x: const DataType&): int
+
+/// CONTAINER METHODS
+  + push    (x: const DataType&):                      void
+  + pop     (rtn: DataType&):                          bool
+  + insert  (index: unsigned int, x: const DataType&): void
+  + get     (index: unsigned int, rtn: DataType&):     bool
+  + enqueue (x: const DataType&):                      void
+  + dequeue (rtn: DataType&):                          bool
+  + remove  (index: unsigned int):                     void
+  + erase   (void):                                    void
+
+/// VECTOR OPERATION METHODS
+  +        append      (that: const Vector&): void
+  + inline operator += (that: const Vector&): void
+  +        equals      (that: const Vector&): bool
+  +        operator == (that: const Vector&): bool
+  + inline operator != (that: const Vector&): bool
+
+/// MEMORY MANAGEMENT OPERATORS
+  + operator new      (size: size_t): void*
+  + operator new[]    (size: size_t): void*
+  + operator delete   (block: void*): void
+  + operator delete[] (block: void*): void
+
+/// HELPER METHODS
+  - swap (i1: unsigned int, i2: unsigned int): void
+================================================================================

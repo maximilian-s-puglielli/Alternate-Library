@@ -19,9 +19,11 @@
 ### AUTHOR:  Maximilian S Puglielli (MSP)
 ### CREATED: 2021.01.06
 
-### VS Code Settings
-.vscode
-.vscode/**
+add_executable(
+    RunAllTests
+    src/Main.cpp
+)
 
-### CMake Files & Directories
-build/**
+target_link_libraries(
+    RunAllTests PRIVATE u128
+)

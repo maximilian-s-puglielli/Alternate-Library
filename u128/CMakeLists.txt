@@ -19,9 +19,12 @@
 ### AUTHOR:  Maximilian S Puglielli (MSP)
 ### CREATED: 2021.01.06
 
-### VS Code Settings
-.vscode
-.vscode/**
+add_library(
+    u128 STATIC
+    src/u128.hpp
+    src/u128.cpp
+)
 
-### CMake Files & Directories
-build/**
+target_include_directories(
+    u128 PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/src"
+)

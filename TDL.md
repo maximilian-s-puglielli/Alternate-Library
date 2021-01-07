@@ -21,5 +21,12 @@ AUTHOR:  Maximilian S Puglielli (MSP)
 CREATED: 2021.01.06
 -->
 
-# Alternate-Library
-The C++ alternate library.
+# <center>TDL</center>
+
+[ ] alt::SharedPointer<br>
+[ ] alt::String<br>
+[ ] alt::Heap<br>
+[ ] alt::Sort<br>
+[ ] alt::LinkedList (C style structs rather than classes)<br>
+[ ] alt::Tree (Binary and other Trees; LinkedList and Array implementation)<br>
+[ ] alt::Search (Depth and Breadth first search; Dijkstra Algorithm)<br>

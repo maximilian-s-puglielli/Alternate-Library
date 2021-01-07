@@ -1,4 +1,3 @@
-<!--
 Copyright (C) 2021 Maximilian S Puglielli (MSP)
 
 The full copyright license belonging to this repository may be found in the
@@ -19,7 +18,23 @@ this program.  If not, see <https://www.gnu.org/licenses/>.
 
 AUTHOR:  Maximilian S Puglielli (MSP)
 CREATED: 2021.01.06
--->
 
-# Alternate-Library
-The C++ alternate library.
+
+
+THIS FILE NEEDS WORK - IT IS VERY MUCH OUT OF DATE
+
+
+
+TEMPLATE CLASS alt::Allocator<Datatype>
+================================================================================
+  - _errno: unsigned char = 0
+================================================================================
+/// ACCESSORS
+  + inline errno(void): unsigned int
+
+/// METHODS
+  + allocate   (size: unsigned int):                      Datatype*
+  + deallocate (block: Datatype*&):                       void
+  + construct  (base: Datatype*, size: unsigned int = 1): void
+  + destruct   (base: Datatype*, size: unsigned int = 1): void
+================================================================================
