@@ -53,6 +53,7 @@ private:
 /// CONSTRUCTORS
 public:
     Except()                                     noexcept;
+    Except(const STR const msg)                  noexcept;
     Except(const Errno err, const STR const msg) noexcept;
 
 /// ACCESSORS
@@ -124,6 +125,11 @@ public:
 inline alt::Except::Except() noexcept:
     Err_((u8)(Errno::FAILURE)),
     Msg_("Except")
+{}
+
+inline alt::Except::Except(const STR const msg) noexcept:
+    Err_((u8)(Errno::FAILURE)),
+    Msg_(msg)
 {}
 
 inline alt::Except::Except(const alt::Errno err, const STR const msg) noexcept:
