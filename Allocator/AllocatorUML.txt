@@ -21,20 +21,28 @@ CREATED: 2021.01.06
 
 
 
-THIS FILE NEEDS WORK - IT IS VERY MUCH OUT OF DATE
-
-
-
 TEMPLATE CLASS alt::Allocator<Datatype>
-================================================================================
-  - _errno: unsigned char = 0
-================================================================================
-/// ACCESSORS
-  + inline errno(void): unsigned int
-
+--------------------------------------------------------------------------------
+/// NO MEMBER VARIABLES
+--------------------------------------------------------------------------------
+/// CONSTRUCTORS
+    +  Allocator ( )                       noexcept
+    +  Allocator ( const Allocator& copy ) noexcept
+    + ~Allocator ( )                       noexcept
+--------------------------------------------------------------------------------
 /// METHODS
-  + allocate   (size: unsigned int):                      Datatype*
-  + deallocate (block: Datatype*&):                       void
-  + construct  (base: Datatype*, size: unsigned int = 1): void
-  + destruct   (base: Datatype*, size: unsigned int = 1): void
-================================================================================
+    + u64       Datasize      ( u32 num = 1 )                  const noexcept
+    + Datatype* Allocate      ( u32 size )                     const
+    + Datatype* Malloc        ( u32 size )                     const noexcept
+    + Datatype* RawAllocate   ( u32 size )                     const
+    + Datatype* RawMalloc     ( u32 size )                     const noexcept
+    + void      Deallocate    ( Datatype*& objs )              const
+    + void      RawDeallocate ( Datatype*& block )             const
+    + void      Construct     ( Datatype* base, u32 size = 1 ) const
+    + void      Destruct      ( Datatype* base, u32 size = 1 ) const
+--------------------------------------------------------------------------------
+/// OPERATORS
+    + Allocator& operator =  ( const Allocator& copy )       noexcept
+    + bool       operator == ( const Allocator& that ) const noexcept
+    + bool       operator != ( const Allocator& that ) const noexcept
+--------------------------------------------------------------------------------
