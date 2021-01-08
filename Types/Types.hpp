@@ -24,7 +24,11 @@
 
 /// PRIMITIVE DATATYPE ABBREVIATIONS ///////////////////////////////////////////////////////////////////////////////////
 
-#ifdef _MSC_VER // if we're using the Microsoft C++ Compiler (cl.exe)
+#ifdef _MSC_VER     // if we're using the Microsoft C++ Compiler (cl.exe)
+
+namespace alt   // typedefs for namespace alt
+{
+////////////////////////////////////////////////////////////
 
 /// 8 bit signed character
 typedef signed char                iCHAR;
@@ -55,7 +59,14 @@ typedef float                      f32;
 /// 64 bit signed floating point
 typedef double                     f64;
 
-#else // if we're using any other compiler
+////////////////////////////////////////////////////////////
+}; // end namespace alt
+
+#else   // if we're using any other compiler
+
+namespace alt   // typedefs for namespace alt
+{
+////////////////////////////////////////////////////////////
 
 /// 8 bit signed character
 typedef signed char                iCHAR;
@@ -85,6 +96,9 @@ typedef unsigned long long int     u64;
 typedef float                      f32;
 /// 64 bit signed floating point
 typedef double                     f64;
+
+////////////////////////////////////////////////////////////
+}; // end namespace alt
 
 #endif // _MSC_VER
 

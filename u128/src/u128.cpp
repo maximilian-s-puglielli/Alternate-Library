@@ -74,7 +74,7 @@ alt::u128& alt::u128::operator = (const u64& copy) noexcept
 
 /// CASTING OPERATOR
 
-u64 alt::u128::operator + (void) const noexcept
+alt::u64 alt::u128::operator + (void) const noexcept
 {
     return LowerHalf_;
 }
@@ -633,42 +633,42 @@ alt::u128::operator bool() const noexcept
     return (bool)(UpperHalf_ | LowerHalf_);
 }
 
-alt::u128::operator i8() const noexcept
+alt::u128::operator alt::i8() const noexcept
 {
     return (i8)(LowerHalf_);
 }
 
-alt::u128::operator u8() const noexcept
+alt::u128::operator alt::u8() const noexcept
 {
     return (u8)(LowerHalf_);
 }
 
-alt::u128::operator i16() const noexcept
+alt::u128::operator alt::i16() const noexcept
 {
     return (i16)(LowerHalf_);
 }
 
-alt::u128::operator u16() const noexcept
+alt::u128::operator alt::u16() const noexcept
 {
     return (u16)(LowerHalf_);
 }
 
-alt::u128::operator i32() const noexcept
+alt::u128::operator alt::i32() const noexcept
 {
     return (i32)(LowerHalf_);
 }
 
-alt::u128::operator u32() const noexcept
+alt::u128::operator alt::u32() const noexcept
 {
     return (u32)(LowerHalf_);
 }
 
-alt::u128::operator i64() const noexcept
+alt::u128::operator alt::i64() const noexcept
 {
     return (i64)(LowerHalf_);
 }
 
-alt::u128::operator u64() const noexcept
+alt::u128::operator alt::u64() const noexcept
 {
     return LowerHalf_;
 }
@@ -679,6 +679,7 @@ alt::u128::operator u64() const noexcept
 
 std::ostream& operator << (std::ostream& OS, const alt::u128& num)
 {
+    using namespace alt;
     READONLY iCHAR HEX[0x10] =
     {
         '0', '1', '2', '3',
