@@ -35,9 +35,102 @@
 
 #include "u128.hpp"
 
+READONLY STR TAB  = "        ";
+READONLY STR INFO = "INFO:   ";
+READONLY STR WARN = "WARN:   ";
+READONLY STR FAIL = "FAIL:   ";
+READONLY STR EXIT = "EXIT:   ";
+
+void TestExceptions    ( void );
+void TestAllocator     ( void );
+void TestVector        ( void );
+void TestUniquePointer ( void );
+void TestArrayPointer  ( void );
+void TestU128          ( void );
+
 int main(int argc, const STR const argv[])
 {
-    std::cout << "Testing 1, 2, 3" << std::endl;
+    std::cout << std::endl;
+    try
+    {
+        TestExceptions();
+        TestAllocator();
+        TestVector();
+        TestUniquePointer();
+        TestArrayPointer();
+        TestU128();
+    }
+    catch (const alt::Except& err)
+    {
+        std::cout << EXIT << "FAILURE" << std::endl << std::endl;
+        return EXIT_FAILURE;
+    }
+    catch (const std::exception& err)
+    {
+        std::cout << EXIT << "FAILURE" << std::endl << std::endl;
+        return EXIT_FAILURE;
+    }
 
+    std::cout << EXIT << "SUCCESS" << std::endl << std::endl;
     return EXIT_SUCCESS;
+}
+
+void TestExceptions(void)
+{
+    using namespace alt;
+    std::cout << INFO << "Beginning Exceptions Test" << std::endl;
+
+    /// TODO: write tests here
+
+    std::cout << INFO << "Exceptions Test Passed" << std::endl << std::endl;
+}
+
+void TestAllocator(void)
+{
+    using namespace alt;
+    std::cout << INFO << "Beginning Allocator Test" << std::endl;
+
+    /// TODO: write tests here
+
+    std::cout << INFO << "Allocator Test Passed" << std::endl << std::endl;
+}
+
+void TestVector(void)
+{
+    using namespace alt;
+    std::cout << INFO << "Beginning Vector Test" << std::endl;
+
+    /// TODO: write tests here
+
+    std::cout << INFO << "Vector Test Passed" << std::endl << std::endl;
+}
+
+void TestUniquePointer(void)
+{
+    using namespace alt;
+    std::cout << INFO << "Beginning UniquePointer Test" << std::endl;
+
+    /// TODO: write tests here
+
+    std::cout << INFO << "UniquePointer Test Passed" << std::endl << std::endl;
+}
+
+void TestArrayPointer(void)
+{
+    using namespace alt;
+    std::cout << INFO << "Beginning ArrayPointer Test" << std::endl;
+
+    /// TODO: write tests here
+
+    std::cout << INFO << "ArrayPointer Test Passed" << std::endl << std::endl;
+}
+
+void TestU128(void)
+{
+    using namespace alt;
+    std::cout << INFO << "Beginning u128 Test" << std::endl;
+
+    /// TODO: write tests here
+
+    std::cout << INFO << "u128 Test Passed" << std::endl << std::endl;
 }
