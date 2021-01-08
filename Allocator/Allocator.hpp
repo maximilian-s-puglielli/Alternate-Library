@@ -16,7 +16,7 @@
 /// You should have received a copy of the GNU General Public License along with
 /// this program.  If not, see <https://www.gnu.org/licenses/>.
 ///
-/// AUTHOR:  Maximilian S Puglielli (MSP)
+/// AUTHOR:  Maximilian S Puglie (MSP)
 /// CREATED: 2021.01.06
 
 #ifndef ALLOCATOR_hpp
@@ -32,10 +32,10 @@ namespace alt   // Allocator belongs to namespace alt
 {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-/// AUTHOR:      MSP
-/// VISIBILITY:  ::alt::Allocator
+/// AUTH: MSP
+/// VISI: ::alt::Allocator
 ///
-/// DESCRIPTION: This class is an encapsulation of the new operator.  Its purpose is to control the allocation and
+/// INFO: This class is an encapsulation of the new operator.  Its purpose is to control the allocation and
 /// deallocation of heap memory.  This class is capable of separating the two actions of allocating and constructing
 /// memory, although it is not usually recommended to do so.  This class is a singleton for the reason that it can be
 /// templated and encapsulated by other container classes in the alternate template library.  This is the default
@@ -48,55 +48,57 @@ class Allocator
 /// CONSTRUCTORS
 public:
 
-/// AUTHOR:      MSP
-/// VISIBILITY:  public
+/// AUTH: MSP
+/// VISI: public
 ///
-/// DESCRIPTION: This is the default constructor for the Allocator template class.
-Allocator() noexcept = default; // default constructor
+/// INFO: This is the default constructor for the Allocator template class.
+Allocator() noexcept
+{}
 
-/// AUTHOR:      MSP
-/// VISIBILITY:  public
-/// PARAMETER:   copy (const Allocator&)
+/// AUTH: MSP
+/// VISI: public
+/// PRAM: copy (const Allocator&)
 ///
-/// DESCRIPTION: This is the copy constructor for the Allocator template class.
-Allocator(const Allocator& copy) noexcept = default; // copy constructor
+/// INFO: This is the copy & move constructor for the Allocator template class.
+Allocator(const Allocator& copy) noexcept
+{}
 
-/// AUTHOR:      MSP
-/// VISIBILITY:  public
-/// PARAMETER:   move (Allocator&&)
+/// AUTH: MSP
+/// VISI: public
 ///
-/// DESCRIPTION: This is the move constructor for the Allocator template class.
-Allocator(Allocator&& move) noexcept = default; // move constructor
+/// INFO: This is the destructor for the Allocator template class.
+~Allocator() noexcept
+{}
 
 ////////////////////////////////////////////////////////////
-/// PUBLIC METHODS
+/// METHODS
 public:
 
-/// AUTHOR:      MSP
-/// VISIBILITY:  public
-/// PARAMETER:   num (u32 = 1)
-/// RETURN:      u64
+/// AUTH: MSP
+/// VISI: public
+/// PRAM: num: u32 = 1
+/// RTRN: u64
 ///
-/// DESCRIPTION: This method returns the number of bytes num Datatypes would be.
+/// INFO: This method returns the number of bytes num Datatypes would be.
 /// return sizeof(Datatype) * 'num';
 ///
 /// NOTE: The parameter 'num' has a default value of 1.
-u64 DataSize(u32 num = 1) const
+u64 Datasize(u32 num = 1) const
 {
     return sizeof(Datatype) * num;
 }
 
-/// AUTHOR:      MSP
-/// VISIBILITY:  public
-/// PARAMETER:   size (u32 = 1) ~ the number of Datatype objects to allocate
-/// RETURN:      Datatype* ~ the address of the array of allocated objects
+/// AUTH: MSP
+/// VISI: public
+/// PRAM: size: u32 ~ the number of Datatype objects to allocate
+/// RTRN: Datatype* ~ the address of the array of allocated objects
 ///
-/// DESCRIPTION: This method either allocates an array of objects whose length is 'size' or a single object
+/// INFO: This method either allocates an array of objects whose length is 'size' or a single object
 /// depending on if 'size' is greater than or equal to one.
 ///
 /// NOTE: This method can throw either an alt::InvalidParam or alt::MallocFailure exception.  Be prepared to handle
 /// those exceptions should they be thrown.
-///   - alt::InvalidParam will be thrown if size == 0
+///   - alt::InvalidParam will be thrown if 'size' == 0
 ///   - alt::MallocFailure will be thrown if the new operator throws the std::bad_alloc exception.
 ///
 /// NOTE: This method calls the default constructor of each Datatype object it allocates, as opposed to the method
@@ -104,10 +106,10 @@ u64 DataSize(u32 num = 1) const
 ///
 /// NOTE: This method is guaranteed to either succeed and return a non-null pointer or fail and throw an exception.
 /// It will never return a nullptr.
-Datatype* Allocate(u32 size = 1) const
+Datatype* Allocate(u32 size) const
 {
     if (! size)
-        throw alt::InvalidParam();
+        throw alt::InvalidParam {};
     Datatype* rtn = nullptr;
     try
     {
@@ -115,17 +117,17 @@ Datatype* Allocate(u32 size = 1) const
     }
     catch (const std::bad_alloc& ba)
     {
-        throw alt::MallocFailure();
+        throw alt::MallocFailure {};
     }
     return rtn;
 }
 
-/// AUTHOR:      MSP
-/// VISIBILITY:  public
-/// PARAMETER:   size (u32 = 1) ~ the number of Datatype objects to allocate
-/// RETURN:      Datatype* ~ the address of the array of allocated objects
+/// AUTH: MSP
+/// VISI: public
+/// PRAM: size: u32 ~ the number of Datatype objects to allocate
+/// RTRN: Datatype* ~ the address of the array of allocated objects
 ///
-/// DESCRIPTION: This method either allocates an array of objects whose length is 'size' or a single object
+/// INFO: This method either allocates an array of objects whose length is 'size' or a single object
 /// depending on if 'size' is greater than or equal to one.
 ///
 /// NOTE: This method does not throw any exceptions.  Instead, if unsuccessful this method returns nullptr.  Be
@@ -133,7 +135,7 @@ Datatype* Allocate(u32 size = 1) const
 ///
 /// NOTE: This method calls the default constructor of each Datatype object it allocates, as opposed to the method
 /// alt::Allocator::RawMalloc() which doesn't call a constructor when allocating memory.
-Datatype* Malloc(u32 size = 1) const noexcept
+Datatype* Malloc(u32 size) const noexcept
 {
     if (! size)
         return nullptr;
@@ -149,12 +151,12 @@ Datatype* Malloc(u32 size = 1) const noexcept
     return rtn;
 }
 
-/// AUTHOR:      MSP
-/// VISIBILITY:  public
-/// PARAMETER:   size (u32 = 1) ~ the number of Datatype objects to allocate
-/// RETURN:      Datatype* ~ the address of the block of raw memory this method allocated
+/// AUTH: MSP
+/// VISI: public
+/// PRAM: size: u32 ~ the number of Datatype objects to allocate
+/// RTRN: Datatype* ~ the address of the block of raw memory this method allocated
 ///
-/// DESCRIPTION: This method allocates a block of raw memory whose length is (sizeof(Datatype) * 'size') number of
+/// INFO: This method allocates a block of raw memory whose length is (sizeof(Datatype) * 'size') number of
 /// bytes.
 ///
 /// NOTE: This method can throw either an alt::InvalidParam or alt::MallocFailure exception.  Be prepared to handle
@@ -167,10 +169,10 @@ Datatype* Malloc(u32 size = 1) const noexcept
 ///
 /// NOTE: This method is guaranteed to either succeed and return a non-null pointer or fail and throw an exception.
 /// It will never return a nullptr.
-Datatype* RawAllocate(u32 size = 1) const
+Datatype* RawAllocate(u32 size) const
 {
     if (! size)
-        throw alt::InvalidParam();
+        throw alt::InvalidParam {};
     Datatype* rtn = nullptr;
     try
     {
@@ -178,17 +180,17 @@ Datatype* RawAllocate(u32 size = 1) const
     }
     catch (const std::bad_alloc& ba)
     {
-        throw alt::MallocFailure();
+        throw alt::MallocFailure {};
     }
     return rtn;
 }
 
-/// AUTHOR:      MSP
-/// VISIBILITY:  public
-/// PARAMETER:   size (u32 = 1) ~ the number of Datatype objects to allocate
-/// RETURN:      Datatype* ~ the address of the block of raw memory this method allocated
+/// AUTH: MSP
+/// VISI: public
+/// PRAM: size: u32 ~ the number of Datatype objects to allocate
+/// RTRN: Datatype* ~ the address of the block of raw memory this method allocated
 ///
-/// DESCRIPTION: This method allocates a block of raw memory whose length is (sizeof(Datatype) * 'size') number of
+/// INFO: This method allocates a block of raw memory whose length is (sizeof(Datatype) * 'size') number of
 /// bytes.
 ///
 /// NOTE: This method does not throw any exceptions.  Instead, if unsuccessful this method returns nullptr.  Be
@@ -196,7 +198,7 @@ Datatype* RawAllocate(u32 size = 1) const
 ///
 /// NOTE: This method doesn't call a constructor when allocating memory, as opposed to the method
 /// alt::Allocator::Malloc() which calls the default constructor of the Datatype objects it allocates.
-Datatype* RawMalloc(u32 size = 1) const noexcept
+Datatype* RawMalloc(u32 size) const noexcept
 {
     if (! size)
         return nullptr;
@@ -212,17 +214,21 @@ Datatype* RawMalloc(u32 size = 1) const noexcept
     return rtn;
 }
 
-/// AUTHOR:      MSP
-/// VISIBILITY:  public
-/// PARAMETER:   objs (Datatype*&) ~ the address of the array of objects to be deallocated
-/// RETURN:      void
+/// AUTH: MSP
+/// VISI: public
+/// PRAM: objs: Datatype*& ~ the address of the array of objects to be deallocated
+/// RTRN: void
 ///
-/// DESCRIPTION: This method deallocates the array of objects pointed to by the parameter 'objs'.
+/// INFO: This method deallocates the array of objects pointed to by the parameter 'objs'.
 ///
 /// NOTE: The parameter 'objs' is passed by reference so that it can be set to nullptr after deallocation.
 ///
 /// NOTE: This method calls the destructor on all the objects it deallocates, as opposed to
 /// alt::Allocator::RawDeallocate() which does not call the destructor on any object it deallocates.
+///
+/// WARN: It is imperative to use this method to deallocate memory allocated using either the alt::Allocator::Allocate()
+/// or alt::Allocator::Malloc() method.  DO NOT call this method on memory allocated using alt::Allocator::RawAllocate()
+/// or alt::Allocator::RawMalloc().
 void Deallocate(Datatype*& objs) const
 {
     if (objs)
@@ -232,17 +238,21 @@ void Deallocate(Datatype*& objs) const
     }
 }
 
-/// AUTHOR:      MSP
-/// VISIBILITY:  public
-/// PARAMETER:   block (Datatype*&) ~ the address of the block of memory to be deallocated
-/// RETURN:      void
+/// AUTH: MSP
+/// VISI: public
+/// PRAM: block: Datatype*& ~ the address of the block of memory to be deallocated
+/// RTRN: void
 ///
-/// DESCRIPTION: This method deallocates the block of memory pointed to by the parameter 'block'.
+/// INFO: This method deallocates the block of memory pointed to by the parameter 'block'.
 ///
 /// NOTE: The parameter 'block' is passed by reference so that it can be set to nullptr after deallocation.
 ///
 /// NOTE: This method does not call the destructor on any object it deallocates, as opposed to
 /// alt::Allocator::Deallocate() which calls the destructor on all the objects it deallocates.
+///
+/// WARN: It is imperative to use this method to deallocate memory allocated using either the
+/// alt::Allocator::RawAllocate() or alt::Allocator::RawMalloc() method.  DO NOT call this method on memory allocated
+/// using alt::Allocator::Allocate() or alt::Allocator::Malloc().
 void RawDeallocate(Datatype*& block) const
 {
     if (block)
@@ -252,13 +262,13 @@ void RawDeallocate(Datatype*& block) const
     }
 }
 
-/// AUTHOR:      MSP
-/// VISIBILITY:  public
-/// PARAMETER:   base (Datatype*) ~ the address of the block of raw memory
-/// PARAMETER:   size (u32 = 1) ~ the number of Datatypes to be constructed
-/// RETURN:      void
+/// AUTH: MSP
+/// VISI: public
+/// PRAM: base: Datatype* ~ the address of the block of raw memory
+/// PRAM: size: u32 = 1 ~ the number of Datatypes to be constructed
+/// RTRN: void
 ///
-/// DESCRIPTION: The method calls the default constructor on all the Datatype objects up to 'size' starting at the
+/// INFO: The method calls the default constructor on all the Datatype objects up to 'size' starting at the
 /// memory address 'base'.
 ///
 /// NOTE: If 'base' == nullptr, this method will do nothing.
@@ -272,13 +282,13 @@ void Construct(Datatype* base, u32 size = 1) const
         new (ptr) Datatype;
 }
 
-/// AUTHOR:      MSP
-/// VISIBILITY:  public
-/// PARAMETER:   base (Datatype*) ~ the address of the block of non-raw memory
-/// PARAMETER:   size (u32 = 1) ~ the number of Datatype objects to be constructed
-/// RETURN:      void
+/// AUTH: MSP
+/// VISI: public
+/// PRAM: base: Datatype* ~ the address of the block of non-raw memory
+/// PRAM: size: u32 = 1 ~ the number of Datatype objects to be constructed
+/// RTRN: void
 ///
-/// DESCRIPTION: This method calls the destructor on all the Datatype objects up to 'size' starting at the memory
+/// INFO: This method calls the destructor on all the Datatype objects up to 'size' starting at the memory
 /// address 'base'.
 ///
 /// NOTE: If 'base' == nullptr, this method will do nothing.
@@ -293,53 +303,48 @@ void Destruct(Datatype* base, u32 size = 1) const
 }
 
 ////////////////////////////////////////////////////////////
-/// OVERLOADED OPERATORS
+/// OPERATORS
 public:
 
-/// AUTHOR:      MSP
-/// VISIBILITY:  public
-/// OVERLOAD:    ::alt::Allocator::operator=()
-/// PARAMETER:   copy (const Allocator&)
-/// RETURN:      Allocator&
+/// AUTH: MSP
+/// VISI: public
+/// PRAM: copy: const Allocator&
+/// RTRN: Allocator&
 ///
-/// DESCRIPTION: This is the assignment operator for the Allocator template class.
-Allocator& operator = (const Allocator& copy) noexcept = default; // assignment operator
+/// INFO: This is the copy & move assignment operator for the Allocator template class.
+Allocator& operator = (const Allocator& copy) noexcept
+{}
 
-/// AUTHOR:      MSP
-/// VISIBILITY:  public
-/// OVERLOAD:    ::alt::Allocator::operator=()
-/// PARAMETER:   move (const Allocator&)
-/// RETURN:      Allocator&
+/// AUTH: MSP
+/// VISI: public
+/// PRAM: that: const Allocator&
+/// RTRN: bool
 ///
-/// DESCRIPTION: This is the assignment operator for the Allocator template class.
-Allocator& operator = (Allocator&& move) noexcept = default; // assignment operator
-
-/// AUTHOR:      MSP
-/// VISIBILITY:  public
-/// PARAMETER:   that (const Allocator&)
-/// RETURN:      bool
-///
-/// DESCRIPTION: This is the equivalency operator for the Allocator template class.
+/// INFO: This is the equivalency operator for the Allocator template class.
 ///
 /// NOTE: This operator always returns true, because only an Allocator templated to the same typename can be passed
 /// to this operator.  For example, if one Allocator is templated to integers and another to characters, comparing
 /// the two using this operator would result in a compile-time error.  Therefore, if the Allocator being compared
 /// is templated to the same typename, then both Allocators are perfectly equal because this class contains no
 /// member variables.
-bool operator == (const Allocator& that) const
+bool operator == (const Allocator& that) const noexcept
 {
     return true;
 }
 
-/// AUTHOR:      MSP
-/// VISIBILITY:  public
-/// PARAMETER:   that (const Allocator&)
-/// RETURN:      bool
+/// AUTH: MSP
+/// VISI: public
+/// PRAM: that: const Allocator&
+/// RTRN: bool
 ///
-/// DESCRIPTION: This is the non-equivalency operator for the Allocator template class.
+/// INFO: This is the non-equivalency operator for the Allocator template class.
 ///
-/// NOTE: This operator simply returns the opposite of the equivalency operator.
-bool operator != (const Allocator& that) const
+/// NOTE: This operator always returns false, because only an Allocator templated to the same typename can be passed
+/// to this operator.  For example, if one Allocator is templated to integers and another to characters, comparing
+/// the two using this operator would result in a compile-time error.  Therefore, if the Allocator being compared
+/// is templated to the same typename, then both Allocators are perfectly equal because this class contains no
+/// member variables.
+bool operator != (const Allocator& that) const noexcept
 {
     return false;
 }
