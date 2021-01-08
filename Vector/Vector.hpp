@@ -40,36 +40,36 @@ class Vector
 
 /// MEMBER VARIABLES
 private:
-    u32       mCount;       // The number of elements in the Vector
-    u32       mLength;      // The total number of elements the Vector can hold before a growth event
-    u16       mGrowth;      // The percent growth of the Vector's length during a growth event
-    Allocator mAllocator;   // The memory Allocator of the Vector
-    Datatype* mArray;       // The array of elements held in the Vector
+    u32       Count_;       // The number of elements in the Vector
+    u32       Length_;      // The total number of elements the Vector can hold before a growth event
+    u16       Growth_;      // The percent growth of the Vector's length during a growth event
+    Allocator Allocator_;   // The memory Allocator of the Vector
+    Datatype* Array_;       // The array of elements held in the Vector
 
 ////////////////////////////////////////////////////////////
 /// DEFAULT CONSTRUCTOR, DESTRUCTOR, & INITIALIZER
 public:
 
 Vector() noexcept: // default constructor
-    mCount(0),
-    mLength(0),
-    mGrowth(100),
-    mAllocator(),
-    mArray(nullptr)
+    Count_(0),
+    Length_(0),
+    Growth_(100),
+    Allocator_(),
+    Array_(nullptr)
 {}
 
 ~Vector() noexcept // destructor
 {
-    if (mArray)
-        mAllocator.Deallocate(mArray);
+    if (Array_)
+        Allocator_.Deallocate(Array_);
 }
 
 bool Init(u32 initLength = 1)
 {
-    if (mArray || ! initLength)
+    if (Array_ || ! initLength)
         return true;
-    mArray = mAllocator.Allocate(initLength);
-    mLength = initLength;
+    Array_ = Allocator_.Allocate(initLength);
+    Length_ = initLength;
     return false;
 }
 
@@ -78,34 +78,34 @@ bool Init(u32 initLength = 1)
 public:
 
 Vector(u32 initLength):
-    mCount(0),
-    mLength(initLength),
-    mGrowth(100),
-    mAllocator(),
-    mArray(nullptr)
+    Count_(0),
+    Length_(initLength),
+    Growth_(100),
+    Allocator_(),
+    Array_(nullptr)
 {
-    if (mLength)
-        mArray = mAllocator.Allocate(mLength);
+    if (Length_)
+        Array_ = Allocator_.Allocate(Length_);
 }
 
 explicit Vector(u32 initLength, u16 percentGrowthRate):
-    mCount(0),
-    mLength(initLength),
-    mGrowth(percentGrowthRate),
-    mAllocator(),
-    mArray(nullptr)
+    Count_(0),
+    Length_(initLength),
+    Growth_(percentGrowthRate),
+    Allocator_(),
+    Array_(nullptr)
 {
-    if (mLength)
-        mArray = mAllocator.Allocate(mLength);
+    if (Length_)
+        Array_ = Allocator_.Allocate(Length_);
 }
 
 /// ARRAY INJECTION CONSTRUCTOR TBD
 // explicit Vector(Datatype* initArray, u32 initCount, u32 initLength) noexcept:
-//     mCount(initCount),
-//     mLength(initLength),
-//     mGrowth(100),
-//     mAllocator(),
-//     mArray(initArray)
+//     Count_(initCount),
+//     Length_(initLength),
+//     Growth_(100),
+//     Allocator_(),
+//     Array_(initArray)
 // {}
 
 ////////////////////////////////////////////////////////////
@@ -113,55 +113,55 @@ explicit Vector(u32 initLength, u16 percentGrowthRate):
 public:
 
 Vector(const Vector& copy): // copy constructor
-    mCount(copy.mCount),
-    mLength(copy.mLength),
-    mGrowth(copy.mGrowth),
-    mAllocator(copy.mAllocator),
-    mArray(nullptr)
+    Count_(copy.Count_),
+    Length_(copy.Length_),
+    Growth_(copy.Growth_),
+    Allocator_(copy.Allocator_),
+    Array_(nullptr)
 {
-    if (this->mLength)
+    if (this->Length_)
     {
-        this->mArray = this->mAllocator.Allocate(this->mLength);
-        std::memcpy(this->mArray, copy.mArray, this->mLength);
+        this->Array_ = this->Allocator_.Allocate(this->Length_);
+        std::memcpy(this->Array_, copy.Array_, this->Length_);
     }
 }
 
 Vector(Vector&& move) noexcept: // move constructor
-    mCount(move.mCount),
-    mLength(move.mLength),
-    mGrowth(move.mGrowth),
-    mAllocator((Allocator&&)(move.mAllocator)),
-    mArray(move.mArray)
+    Count_(move.Count_),
+    Length_(move.Length_),
+    Growth_(move.Growth_),
+    Allocator_((Allocator&&)(move.Allocator_)),
+    Array_(move.Array_)
 {
-    move.mArray  = nullptr;
+    move.Array_  = nullptr;
 }
 
 Vector& operator = (const Vector& copy)
 {
-    this->mAllocator.Deallocate(this->mArray);
-    this->mCount     = copy.mCount;
-    this->mLength    = copy.mLength;
-    this->mGrowth    = copy.mGrowth;
-    this->mAllocator = copy.mAllocator;
-    if (this->mLength)
+    this->Allocator_.Deallocate(this->Array_);
+    this->Count_     = copy.Count_;
+    this->Length_    = copy.Length_;
+    this->Growth_    = copy.Growth_;
+    this->Allocator_ = copy.Allocator_;
+    if (this->Length_)
     {
-        this->mArray = this->mAllocator.Allocate(this->mLength);
-        std::memcpy(this->mArray, copy.mArray, this->mLength);
+        this->Array_ = this->Allocator_.Allocate(this->Length_);
+        std::memcpy(this->Array_, copy.Array_, this->Length_);
     }
     else
-        this->mArray = nullptr;
+        this->Array_ = nullptr;
     return *this;
 }
 
 Vector& operator = (Vector&& move) noexcept
 {
-    this->mAllocator.Deallocate(this->mArray);
-    this->mCount     = move.mCount;
-    this->mLength    = move.mLength;
-    this->mGrowth    = move.mGrowth;
-    this->mAllocator = (Allocator&&)(move.mAllocator);
-    this->mArray     = move.mArray;
-    move.mArray      = nullptr;
+    this->Allocator_.Deallocate(this->Array_);
+    this->Count_     = move.Count_;
+    this->Length_    = move.Length_;
+    this->Growth_    = move.Growth_;
+    this->Allocator_ = (Allocator&&)(move.Allocator_);
+    this->Array_     = move.Array_;
+    move.Array_      = nullptr;
     return *this;
 }
 
@@ -176,22 +176,22 @@ u32 DataSize(u32 num = 1) const
 
 u32 Size(void) const
 {
-    return mCount;
+    return Count_;
 }
 
 u32 Capacity(void) const
 {
-    return mLength;
+    return Length_;
 }
 
 bool Empty(void) const
 {
-    return (mCount == 0);
+    return (Count_ == 0);
 }
 
 bool Full(void) const
 {
-    return (mCount == mLength);
+    return (Count_ == Length_);
 }
 
 ////////////////////////////////////////////////////////////
@@ -200,11 +200,11 @@ public:
 
 bool Resize(u32 newCapacity)
 {
-    if (newCapacity == mLength)
+    if (newCapacity == Length_)
         return true;
-    else if (newCapacity < mCount)
+    else if (newCapacity < Count_)
         return Truncate(newCapacity);
-    else if (newCapacity < mLength)
+    else if (newCapacity < Length_)
         return Shrink(newCapacity);
     else
         return Grow(newCapacity);
@@ -212,57 +212,57 @@ bool Resize(u32 newCapacity)
 
 bool Grow(void)
 {
-    if (mLength)
-        return Grow((mLength * (mGrowth + 100)) / 100);
-    return Grow((mGrowth + 100) / 100);
+    if (Length_)
+        return Grow((Length_ * (Growth_ + 100)) / 100);
+    return Grow((Growth_ + 100) / 100);
 }
 
 bool Grow(u32 newCapacity)
 {
-    if (newCapacity <= mLength)
+    if (newCapacity <= Length_)
         return true;
-    Datatype* newArray = mAllocator.Allocate(newCapacity);
-    std::memcpy(newArray, mArray, DataSize(mCount));
-    mAllocator.Deallocate(mArray);
-    mLength = newCapacity;
-    mArray  = newArray;
+    Datatype* newArray = Allocator_.Allocate(newCapacity);
+    std::memcpy(newArray, Array_, DataSize(Count_));
+    Allocator_.Deallocate(Array_);
+    Length_ = newCapacity;
+    Array_  = newArray;
     return false;
 }
 
 bool Shrink(void)
 {
-    return Shrink(mCount);
+    return Shrink(Count_);
 }
 
 bool Shrink(u32 newCapacity)
 {
     if (! newCapacity ||
-        newCapacity <  mCount ||
-        newCapacity >= mLength)
+        newCapacity <  Count_ ||
+        newCapacity >= Length_)
         return true;
-    Datatype* newArray = mAllocator.Allocate(newCapacity);
-    std::memcpy(newArray, mArray, DataSize(mCount));
-    mAllocator.Deallocate(mArray);
-    mLength = newCapacity;
-    mArray  = newArray;
+    Datatype* newArray = Allocator_.Allocate(newCapacity);
+    std::memcpy(newArray, Array_, DataSize(Count_));
+    Allocator_.Deallocate(Array_);
+    Length_ = newCapacity;
+    Array_  = newArray;
     return false;
 }
 
-/// NOTE: passing zero will set mCount & mLength to zero, will destruct & deallocate mArray, and set mArray to nullptr
+/// NOTE: passing zero will set Count_ & Length_ to zero, will destruct & deallocate Array_, and set Array_ to nullptr
 bool Truncate(u32 newCapacity)
 {
-    if (newCapacity >= mCount)
+    if (newCapacity >= Count_)
         return true;
     Datatype* newArray = nullptr;
     if (newCapacity)
     {
-        newArray = mAllocator.Allocate(newCapacity);
-        std::memcpy(newArray, mArray, DataSize(newCapacity));
+        newArray = Allocator_.Allocate(newCapacity);
+        std::memcpy(newArray, Array_, DataSize(newCapacity));
     }
-    mAllocator.Deallocate(mArray);
-    mCount  = newCapacity;
-    mLength = newCapacity;
-    mArray  = newArray;
+    Allocator_.Deallocate(Array_);
+    Count_  = newCapacity;
+    Length_ = newCapacity;
+    Array_  = newArray;
     return false;
 }
 
@@ -272,42 +272,42 @@ public:
 
 const Datatype& At(u32 index) const
 {
-    if (index >= mCount)
+    if (index >= Count_)
         throw alt::InvalidIndex();
-    return mArray[index];
+    return Array_[index];
 }
 
 Datatype& At(u32 index)
 {
-    if (index >= mCount)
+    if (index >= Count_)
         throw alt::InvalidIndex();
-    return mArray[index];
+    return Array_[index];
 }
 
 const Datatype& operator [] (u32 index) const
 {
-    return mArray[index];
+    return Array_[index];
 }
 
-/// WARNING: this method can destroy the mCount invariant
+/// WARNING: this method can destroy the Count_ invariant
 Datatype& operator [] (u32 index)
 {
-    return mArray[index];
+    return Array_[index];
 }
 
-/// NOTE: includes bounds checking, and cannot destroy the mCount invariant
+/// NOTE: includes bounds checking, and cannot destroy the Count_ invariant
 bool Swap(u32 index1st, u32 index2nd)
 {
-    if (index1st >= mCount ||
-        index2nd >= mCount)
+    if (index1st >= Count_ ||
+        index2nd >= Count_)
         return true;
-    Datatype tmp     = mArray[index1st];
-    mArray[index1st] = mArray[index2nd];
-    mArray[index2nd] = tmp;
+    Datatype tmp     = Array_[index1st];
+    Array_[index1st] = Array_[index2nd];
+    Array_[index2nd] = tmp;
     return false;
 }
 
-/// WARNING: this method can destroy the mCount invariant
+/// WARNING: this method can destroy the Count_ invariant
 void Swap(Datatype* const ptr1st, Datatype* const ptr2nd) noexcept
 {
     Datatype tmp = *ptr1st;
@@ -321,8 +321,8 @@ public:
 
 bool Contains(const Datatype& x) const
 {
-    const Datatype* ptr = mArray;
-    const Datatype* const end = ptr + mCount;
+    const Datatype* ptr = Array_;
+    const Datatype* const end = ptr + Count_;
     for (; ptr < end; ptr++)
         if (*ptr == x)
             return true;
@@ -331,8 +331,8 @@ bool Contains(const Datatype& x) const
 
 i64 IndexOf(const Datatype& x) const
 {
-    const Datatype* ptr = mArray;
-    for (i64 i = 0; i < mCount; ptr++, i++)
+    const Datatype* ptr = Array_;
+    for (i64 i = 0; i < Count_; ptr++, i++)
         if (*ptr == x)
             return i;
     return -1;
@@ -340,8 +340,8 @@ i64 IndexOf(const Datatype& x) const
 
 bool IndexOf(const Datatype& x, u32& rtn) const
 {
-    const Datatype* ptr = mArray;
-    for (u32 i = 0; i < mCount; ptr++, i++)
+    const Datatype* ptr = Array_;
+    for (u32 i = 0; i < Count_; ptr++, i++)
         if (*ptr == x)
         {
             rtn = i;
@@ -352,8 +352,8 @@ bool IndexOf(const Datatype& x, u32& rtn) const
 
 i64 LastIndexOf(const Datatype& x) const
 {
-    const Datatype* ptr = mArray + (mCount - 1);
-    for (i64 i = mCount - 1; i >= 0; ptr--, i--)
+    const Datatype* ptr = Array_ + (Count_ - 1);
+    for (i64 i = Count_ - 1; i >= 0; ptr--, i--)
         if (*ptr == x)
             return i;
     return -1;
@@ -361,8 +361,8 @@ i64 LastIndexOf(const Datatype& x) const
 
 bool LastIndexOf(const Datatype& x, u32& rtn) const
 {
-    const Datatype* ptr = mArray + (mCount - 1);
-    for (u32 i = mCount - 1; i >= 0; ptr--, i--)
+    const Datatype* ptr = Array_ + (Count_ - 1);
+    for (u32 i = Count_ - 1; i >= 0; ptr--, i--)
         if (*ptr == x)
         {
             rtn = i;
@@ -377,9 +377,9 @@ public:
 
 bool Get(u32 index, Datatype& rtn)
 {
-    if (index >= mCount)
+    if (index >= Count_)
         return true;
-    rtn = mArray[index];
+    rtn = Array_[index];
     return Remove(index);
 }
 
@@ -388,12 +388,12 @@ bool PushFront(const Datatype& x)
     if (Full() &&
         Grow())
         return true;
-    Datatype* const end = mArray;
-    Datatype* ptr = end + mCount;
+    Datatype* const end = Array_;
+    Datatype* ptr = end + Count_;
     for (; ptr > end; ptr--)
         Swap(ptr - 1, ptr);
     *end = x;
-    mCount++;
+    Count_++;
     return false;
 }
 
@@ -402,8 +402,8 @@ bool PushBack(const Datatype& x)
     if (Full() &&
         Grow())
         return true;
-    mArray[mCount] = x;
-    mCount++;
+    Array_[Count_] = x;
+    Count_++;
     return false;
 }
 
@@ -419,12 +419,12 @@ Datatype& PeekFront(void)
 
 const Datatype& PeekBack(void) const
 {
-    return At(mCount - 1);
+    return At(Count_ - 1);
 }
 
 Datatype& PeekBack(void)
 {
-    return At(mCount - 1);
+    return At(Count_ - 1);
 }
 
 bool PopFront(Datatype& rtn)
@@ -434,33 +434,33 @@ bool PopFront(Datatype& rtn)
 
 bool PopBack(Datatype& rtn)
 {
-    return Get(mCount - 1, rtn);
+    return Get(Count_ - 1, rtn);
 }
 
-/// NOTE: index can be within the range [0, mCount], otherwise this method fails and returns true
+/// NOTE: index can be within the range [0, Count_], otherwise this method fails and returns true
 bool Insert(u32 index, const Datatype& x)
 {
     if (Full() &&
         Grow())
         return true;
-    if (index > mCount)
+    if (index > Count_)
         return true;
-    Datatype* const end = mArray + index;
-    Datatype* ptr = mArray + mCount;
+    Datatype* const end = Array_ + index;
+    Datatype* ptr = Array_ + Count_;
     for (; ptr > end; ptr--)
         Swap(ptr - 1, ptr);
     *end = x;
-    mCount++;
+    Count_++;
     return false;
 }
 
 bool Remove(u32 index)
 {
-    if (index >= mCount)
+    if (index >= Count_)
         return true;
-    mCount--;
-    Datatype* ptr = mArray + index;
-    Datatype* const end = mArray + mCount;
+    Count_--;
+    Datatype* ptr = Array_ + index;
+    Datatype* const end = Array_ + Count_;
     for (; ptr < end; ptr++)
         Swap(ptr, ptr + 1);
     return false;
@@ -468,7 +468,7 @@ bool Remove(u32 index)
 
 void Erase(void)
 {
-    mCount = 0;
+    Count_ = 0;
 }
 
 ////////////////////////////////////////////////////////////
@@ -477,9 +477,9 @@ public:
 
 void Append(const Vector& that)
 {
-    this->Resize(this->mLength + that.mLength);
-    std::memcpy(this->mArray + this->mCount, that.mArray, DataSize(that.mCount));
-    this->mCount += that.mCount;
+    this->Resize(this->Length_ + that.Length_);
+    std::memcpy(this->Array_ + this->Count_, that.Array_, DataSize(that.Count_));
+    this->Count_ += that.Count_;
 }
 
 void operator += (const Vector& that)
@@ -490,11 +490,11 @@ void operator += (const Vector& that)
 /// NOTE: only checks for list equivalency, not object equivalency - less rigorous than alt::Vector::operator==()
 bool Equals(const Vector& that) const
 {
-    if (this->mCount != that.mCount)
+    if (this->Count_ != that.Count_)
         return false;
-    const Datatype* this_ptr = this->mArray;
-    const Datatype* that_ptr = that.mArray;
-    const Datatype* const this_end = this_ptr + this->mCount;
+    const Datatype* this_ptr = this->Array_;
+    const Datatype* that_ptr = that.Array_;
+    const Datatype* const this_end = this_ptr + this->Count_;
     for (; this_ptr < this_end; this_ptr++, that_ptr++)
         if (*this_ptr != *that_ptr)
             return false;
@@ -504,9 +504,9 @@ bool Equals(const Vector& that) const
 /// NOTE: checks for object equivalency - much more rigorous than alt::Vector::Equals()
 bool operator == (const Vector& that) const
 {
-    if (this->mLength    != that.mLength ||
-        this->mGrowth    != that.mGrowth ||
-        this->mAllocator != that.mAllocator)
+    if (this->Length_    != that.Length_ ||
+        this->Growth_    != that.Growth_ ||
+        this->Allocator_ != that.Allocator_)
         return false;
     return this->Equals(that);
 }
