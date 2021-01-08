@@ -26,7 +26,7 @@
 #include "Keywords.hpp"
 #include "Types.hpp"
 
-namespace alt
+namespace alt   // EXCEPTIONS for namespace alt
 {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -47,17 +47,17 @@ EXCEPTION Except
 {
 /// MEMBER VARIABLES
 private:
-    const u8 Err_;
+    const u8        Err_;
     const STR const Msg_;
 
 /// CONSTRUCTORS
 public:
-    Except() noexcept;
+    Except()                                     noexcept;
     Except(const Errno err, const STR const msg) noexcept;
 
 /// ACCESSORS
 public:
-    const Errno Err(void) const noexcept;
+    const Errno     Err(void) const noexcept;
     const STR const Msg(void) const noexcept;
 
 }; // end EXCEPTION Except
@@ -70,7 +70,7 @@ EXCEPTION MallocFailure:
 {
 /// CONSTRUCTORS
 public:
-    MallocFailure() noexcept;
+    MallocFailure()                    noexcept;
     MallocFailure(const STR const msg) noexcept;
 
 }; // end EXCEPTION MallocFailure
@@ -83,7 +83,7 @@ EXCEPTION InvalidParam:
 {
 /// CONSTRUCTORS
 public:
-    InvalidParam() noexcept;
+    InvalidParam()                    noexcept;
     InvalidParam(const STR const msg) noexcept;
 
 }; // end EXCEPTION InvalidParam
@@ -96,7 +96,7 @@ EXCEPTION InvalidIndex:
 {
 /// CONSTRUCTORS
 public:
-    InvalidIndex() noexcept;
+    InvalidIndex()                    noexcept;
     InvalidIndex(const STR const msg) noexcept;
 
 }; // end EXCEPTION InvalidIndex
@@ -109,7 +109,7 @@ EXCEPTION DivideByZero:
 {
 /// CONSTRUCTORS
 public:
-    DivideByZero() noexcept;
+    DivideByZero()                    noexcept;
     DivideByZero(const STR const msg) noexcept;
 
 }; // end EXCEPTION InvalidIndex

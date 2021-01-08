@@ -40,20 +40,24 @@ class u128
     /// Decimal         0
     /// Hexidecimal     0000 0000 0000 0000 0000 0000 0000 0000
     /// Binary          0000 ...
-#   define u128_MIN alt::u128 { u64_MIN, u64_MIN }
+#   define u128_MIN ( alt::u128 { u64_MIN, u64_MIN } )
 
     /// 128 bit unsigned integer MAXIMUM
     /// Decimal         340,282,366,920,938,463,463,374,607,431,768,211,456
     /// Hexidecimal     FFFF FFFF FFFF FFFF FFFF FFFF FFFF FFFF
     /// Binary          1111 ...
-#   define u128_MAX alt::u128 { u64_MAX, u64_MAX }
+#   define u128_MAX ( alt::u128 { u64_MAX, u64_MAX } )
 
+////////////////////////////////////////////////////////////
 private:
+
     /// PRIVATE MEMBER VARIABLES
     u64 UpperHalf_;
     u64 LowerHalf_;
 
+////////////////////////////////////////////////////////////
 public:
+
     /// DEFAULT CONSTRUCTOR & DESTRUCTOR
     u128()  noexcept;
     ~u128() noexcept;
@@ -67,19 +71,25 @@ public:
     u128& operator = (const u128& copy) noexcept;
     u128& operator = (const u64&  copy) noexcept;
 
+////////////////////////////////////////////////////////////
 public:
+
     /// CASTING OPERATOR, NEGATIVE OPERATOR
     u64  operator + (void) const noexcept;
-    u128 operator - (void) = delete;
+    // operator - () = delete;
 
+////////////////////////////////////////////////////////////
 public:
+
     /// INCREMENT & DECREMENT
     u128& operator ++ (void) noexcept;
     u128  operator ++ (int)  noexcept;
     u128& operator -- (void) noexcept;
     u128  operator -- (int)  noexcept;
 
+////////////////////////////////////////////////////////////
 public:
+
     /// BITWISE OPERATORS
     u128 operator ~  (void)               const noexcept;
     u128 operator &  (const u128& andarg) const noexcept;
@@ -91,7 +101,9 @@ public:
     u128 operator << (const u8&   bits)   const noexcept;
     u128 operator >> (const u8&   bits)   const noexcept;
 
+////////////////////////////////////////////////////////////
 public:
+
     /// ARITHMETIC OPERATORS
     u128 operator + (const u128& addend)     const noexcept;
     u128 operator + (const u64&  addend)     const noexcept;
@@ -104,7 +116,9 @@ public:
     u128 operator % (const u128& divisor)    const noexcept;
     u128 operator % (const u64&  divisor)    const noexcept;
 
+////////////////////////////////////////////////////////////
 public:
+
     /// BITWISE ASSIGNMENT OPERATORS
     u128& operator &=  (const u128& andarg) noexcept;
     u128& operator &=  (const u64&  andarg) noexcept;
@@ -115,7 +129,9 @@ public:
     u128& operator <<= (const u8&   bits)   noexcept;
     u128& operator >>= (const u8&   bits)   noexcept;
 
+////////////////////////////////////////////////////////////
 public:
+
     /// ARITHMETIC ASSIGNMENT OPERATORS
     u128& operator += (const u128& addend)     noexcept;
     u128& operator += (const u64&  addend)     noexcept;
@@ -128,7 +144,9 @@ public:
     u128& operator %= (const u128& divisor)    noexcept;
     u128& operator %= (const u64&  divisor)    noexcept;
 
+////////////////////////////////////////////////////////////
 public:
+
     /// LOGICAL OPERATORS
     bool operator !  (void)               noexcept;
     bool operator && (const u128& andarg) noexcept;
@@ -138,7 +156,9 @@ public:
     bool operator || (const u64&  andarg) noexcept;
     bool operator || (bool andarg)        noexcept;
 
+////////////////////////////////////////////////////////////
 public:
+
     /// COMPARISON OPERATORS
     bool operator == (const u128& that) noexcept;
     bool operator == (const u64&  that) noexcept;
@@ -153,7 +173,21 @@ public:
     bool operator >= (const u128& that) noexcept;
     bool operator >= (const u64&  that) noexcept;
 
+////////////////////////////////////////////////////////////
 public:
+
+    /// MEMBER ACCESS OPERATORS
+    // u8 operator [] (const u8 i) const noexcept;
+    // operator *   () = delete;
+    // operator &   () = delete;
+    // operator ->  () = delete;
+    // operator .   () = delete;
+    // operator ->* () = delete;
+    // operator .*  () = delete;
+
+////////////////////////////////////////////////////////////
+public:
+
     /// CASTING OPERATORS
     explicit operator bool() const noexcept;
     explicit operator i8()   const noexcept;

@@ -22,87 +22,97 @@
 #ifndef UNIQUEPOINTER_hpp
 #define UNIQUEPOINTER_hpp
 
-namespace alt // UniquePointer belongs to namespace alt
+namespace alt   // UniquePointer belongs to namespace alt
 {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 template <typename Datatype>
 class UniquePointer
 {
-
+////////////////////////////////////////////////////////////
 /// RAII ENCAPSULATED POINTER
 private:
+
     Datatype* Pointer_;     // The encapsulated pointer.
 
+////////////////////////////////////////////////////////////
 /// DEFAULT CONSTRUCTOR & DESTRUCTOR
 public:
-    UniquePointer() noexcept:   // default constructor
-        Pointer_(nullptr)
-    {}
 
-    ~UniquePointer() noexcept   // destructor
-    {
-        if (Pointer_)
-            delete Pointer_;
-    }
+UniquePointer() noexcept:   // default constructor
+    Pointer_(nullptr)
+{}
 
+~UniquePointer() noexcept   // destructor
+{
+    if (Pointer_)
+        delete Pointer_;
+}
+
+////////////////////////////////////////////////////////////
 /// OVERLOADED CONSTRUCTOR
 public:
-    UniquePointer(Datatype* ptr) noexcept:
-        Pointer_(ptr)
-    {}
 
+UniquePointer(Datatype* ptr) noexcept:
+    Pointer_(ptr)
+{}
+
+////////////////////////////////////////////////////////////
 /// COPY CONSTRUCTOR, MOVE CONSTRUCTOR, & ASSIGNMENT OPERATOR
 public:
-    UniquePointer(const UniquePointer& copy) = delete;  // NO DUPLICATION
 
-    UniquePointer(UniquePointer&& move) noexcept:   // transfer of ownership is allowed
-        Pointer_(move.Pointer_)
-    {
-        move.Pointer_ = nullptr;
-    }
+UniquePointer(const UniquePointer& copy) = delete;  // NO DUPLICATION
 
-    UniquePointer& operator = (const UniquePointer& copy) = delete;     // NO DUPLICATION
+UniquePointer(UniquePointer&& move) noexcept:   // transfer of ownership is allowed
+    Pointer_(move.Pointer_)
+{
+    move.Pointer_ = nullptr;
+}
 
-    UniquePointer& operator = (UniquePointer&& move)    // transfer of ownership is allowed
-    {
-        if (this->Pointer_)
-            delete this->Pointer_;
-        this->Pointer_ = move.Pointer_;
-        move.Pointer_  = nullptr;
-        return *this;
-    }
+UniquePointer& operator = (const UniquePointer& copy) = delete;     // NO DUPLICATION
 
-    UniquePointer& operator = (Datatype* ptr) noexcept
-    {
-        if (Pointer_)
-            delete Pointer_;
-        Pointer_ = ptr;
-        return *this;
-    }
+UniquePointer& operator = (UniquePointer&& move)    // transfer of ownership is allowed
+{
+    if (this->Pointer_)
+        delete this->Pointer_;
+    this->Pointer_ = move.Pointer_;
+    move.Pointer_  = nullptr;
+    return *this;
+}
 
+UniquePointer& operator = (Datatype* ptr) noexcept
+{
+    if (Pointer_)
+        delete Pointer_;
+    Pointer_ = ptr;
+    return *this;
+}
+
+////////////////////////////////////////////////////////////
 /// OPERATORS OVERLOADS
 public:
-    const Datatype& operator * (void) const
-    {
-        return *Pointer_;
-    }
 
-    Datatype& operator * (void)
-    {
-        return *Pointer_;
-    }
+const Datatype& operator * (void) const
+{
+    return *Pointer_;
+}
 
-    const Datatype* operator -> (void) const
-    {
-        return Pointer_;
-    }
+Datatype& operator * (void)
+{
+    return *Pointer_;
+}
 
-    Datatype* operator -> (void)
-    {
-        return Pointer_;
-    }
+const Datatype* operator -> (void) const
+{
+    return Pointer_;
+}
 
+Datatype* operator -> (void)
+{
+    return Pointer_;
+}
+
+////////////////////////////////////////////////////////////
 }; // end template class UniquePointer
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

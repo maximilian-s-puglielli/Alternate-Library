@@ -29,90 +29,100 @@ namespace alt // ArrayPointer belongs to namespace alt
 template <typename Datatype>
 class ArrayPointer
 {
-
+////////////////////////////////////////////////////////////
 /// RAII ENCAPSULATED ARRAY
 private:
+
     Datatype* Array_;   // The encapsulated array.
 
+////////////////////////////////////////////////////////////
 /// DEFAULT CONSTRUCTOR & DESTRUCTOR
 public:
-    ArrayPointer() noexcept:    // default constructor
-        Array_(nullptr)
-    {}
 
-    ~ArrayPointer() noexcept    // destructor
-    {
-        if (Array_)
-            delete [] Array_;
-    }
+ArrayPointer() noexcept:    // default constructor
+    Array_(nullptr)
+{}
 
+~ArrayPointer() noexcept    // destructor
+{
+    if (Array_)
+        delete [] Array_;
+}
+
+////////////////////////////////////////////////////////////
 /// OVERLOADED CONSTRUCTOR
 public:
-    ArrayPointer(Datatype* arr) noexcept:
-        Array_(arr)
-    {}
 
+ArrayPointer(Datatype* arr) noexcept:
+    Array_(arr)
+{}
+
+////////////////////////////////////////////////////////////
 /// COPY CONSTRUCTOR, MOVE CONSTRUCTOR, & ASSIGNMENT OPERATOR
 public:
-    ArrayPointer(const ArrayPointer& copy) = delete;    // NO DUPLICATION
 
-    ArrayPointer(ArrayPointer&& move) noexcept:     // transfer of ownership is allowed
-        Array_(move.Array_)
-    {
-        move.Array_ = nullptr;
-    }
+ArrayPointer(const ArrayPointer& copy) = delete;    // NO DUPLICATION
 
-    ArrayPointer& operator = (const ArrayPointer& copy) = delete;   // NO DUPLICATION
+ArrayPointer(ArrayPointer&& move) noexcept:     // transfer of ownership is allowed
+    Array_(move.Array_)
+{
+    move.Array_ = nullptr;
+}
 
-    ArrayPointer& operator = (ArrayPointer&& move) noexcept     // transfer of ownership is allowed
-    {
-        if (this->Array_)
-            delete [] this->Array_;
-        this->Array_ = move.Array_;
-        move.Array_  = nullptr;
-        return *this;
-    }
+ArrayPointer& operator = (const ArrayPointer& copy) = delete;   // NO DUPLICATION
 
-    ArrayPointer& operator = (Datatype* arr) noexcept
-    {
-        if (Array_)
-            delete [] Array_;
-        Array_ = arr;
-        return *this;
-    }
+ArrayPointer& operator = (ArrayPointer&& move) noexcept     // transfer of ownership is allowed
+{
+    if (this->Array_)
+        delete [] this->Array_;
+    this->Array_ = move.Array_;
+    move.Array_  = nullptr;
+    return *this;
+}
 
+ArrayPointer& operator = (Datatype* arr) noexcept
+{
+    if (Array_)
+        delete [] Array_;
+    Array_ = arr;
+    return *this;
+}
+
+////////////////////////////////////////////////////////////
 /// OPERATOR OVERLOADS
 public:
-    const Datatype* operator & (void) const
-    {
-        return Array_;
-    }
 
-    Datatype* operator & (void)
-    {
-        return Array_;
-    }
+const Datatype* operator & (void) const
+{
+    return Array_;
+}
 
-    const Datatype& operator * (void) const
-    {
-        return *Array_;
-    }
+Datatype* operator & (void)
+{
+    return Array_;
+}
 
-    Datatype& operator * (void)
-    {
-        return *Array_;
-    }
+const Datatype& operator * (void) const
+{
+    return *Array_;
+}
 
-    const Datatype& operator [] (unsigned long long int index) const
-    {
-        return Array_[index];
-    }
+Datatype& operator * (void)
+{
+    return *Array_;
+}
 
-    Datatype& operator [] (unsigned long long int index)
-    {
-        return Array_[index];
-    }
+const Datatype& operator [] (u64 index) const
+{
+    return Array_[index];
+}
 
+Datatype& operator [] (u64 index)
+{
+    return Array_[index];
+}
+
+////////////////////////////////////////////////////////////
 }; // end template class ArrayPointer
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
