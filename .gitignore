@@ -20,7 +20,6 @@
 ### CREATED: 2021.01.06
 
 ### VS Code Settings
-.vscode
 .vscode/**
 
 ### CMake Files & Directories
