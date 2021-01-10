@@ -37,7 +37,8 @@ enum Errno
     MALLOC_FAILURE = 2,
     INVALID_PARAM  = 3,
     INVALID_INDEX  = 4,
-    DIVIDE_BY_ZERO = 5
+    DIVIDE_BY_ZERO = 5,
+    INT_OVERFLOW   = 6
 }; // end enum Errno
 
 
@@ -115,6 +116,19 @@ public:
 
 }; // end EXCEPTION InvalidIndex
 
+
+
+/// INT_OVERFLOW = 6
+EXCEPTION IntOverflow:
+    public Except
+{
+/// CONSTRUCTORS
+public:
+    IntOverflow()                    noexcept;
+    IntOverflow(const STR const msg) noexcept;
+
+}; // end EXCEPTION IntOverflow
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 }; // end namespace alt
 
@@ -188,11 +202,23 @@ inline alt::InvalidIndex::InvalidIndex(const STR const msg) noexcept:
 /// EXCEPTION DivideByZero definitions
 
 inline alt::DivideByZero::DivideByZero() noexcept:
-    Except(Errno::DIVIDE_BY_ZERO, "InvalidIndex")
+    Except(Errno::DIVIDE_BY_ZERO, "DivideByZero")
 {}
 
 inline alt::DivideByZero::DivideByZero(const STR const msg) noexcept:
     Except(Errno::DIVIDE_BY_ZERO, msg)
+{}
+
+
+
+/// EXCEPTION IntOverflow definitions
+
+inline alt::IntOverflow::IntOverflow() noexcept:
+    Except(Errno::INT_OVERFLOW, "IntOverflow")
+{}
+
+inline alt::IntOverflow::IntOverflow(const STR const msg) noexcept:
+    Except(Errno::INT_OVERFLOW, msg)
 {}
 
 #endif // end EXCEPTIONS_HPP
