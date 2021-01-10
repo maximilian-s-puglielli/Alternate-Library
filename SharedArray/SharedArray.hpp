@@ -17,90 +17,84 @@
 /// this program.  If not, see <https://www.gnu.org/licenses/>.
 ///
 /// AUTHOR:  Maximilian S Puglielli (MSP)
-/// CREATED: 2021.01.06
+/// CREATED: 2021.01.10
 
-#ifndef ARRAYPOINTER_hpp
-#define ARRAYPOINTER_hpp
+#ifndef SHAREDARRAY_hpp
+#define SHAREDARRAY_hpp
 
-namespace alt // ArrayPointer belongs to namespace alt
+#include "Keywords.hpp"
+#include "Types.hpp"
+
+namespace alt   // SharedArray belongs to namespace alt
 {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 template <typename Datatype>
-class ArrayPointer
+class SharedArray
 {
 ////////////////////////////////////////////////////////////
-/// RAII ENCAPSULATED ARRAY
+/// MEMBER VARIABLES
 private:
 
-    Datatype* Array_;   // The encapsulated array.
+    static u8 Count_;   // array counter
+    Datatype* Array_;   // RAII encapsulated array
 
 ////////////////////////////////////////////////////////////
 /// DEFAULT CONSTRUCTOR & DESTRUCTOR
 public:
 
-ArrayPointer() noexcept:    // default constructor
-    Array_(nullptr)
-{}
+/// WARN: To preserve the Singular Unique Array per Datatype Invariant of this class, it is required that any
+/// SharedArray object be given ownership of an array during its construction, through its constructor.
+SharedArray() = delete;
 
-~ArrayPointer() noexcept    // destructor
+~SharedArray() noexcept
 {
-    if (Array_)
+    if (Array_ && Count_ == 1)
         delete [] Array_;
+    --Count_;
 }
 
 ////////////////////////////////////////////////////////////
-/// OVERLOADED CONSTRUCTOR
+/// OVERLOADED CONSTRUCTOR & ASSIGNMENT OPERATOR
 public:
 
-ArrayPointer(Datatype* arr) noexcept:
+SharedArray(Datatype arr[]) noexcept:
     Array_(arr)
-{}
+{
+    ++Count_;
+}
+
+/// WARN: This operator had the ability to destroy the Singular Unique Array per Datatype Invariant of this class, and
+/// thus was deleted.
+SharedArray& operator = (Datatype arr[]) = delete;
 
 ////////////////////////////////////////////////////////////
-/// COPY CONSTRUCTOR, MOVE CONSTRUCTOR, & ASSIGNMENT OPERATOR
+/// COPY CONSTRUCTOR & ASSIGNMENT OPERATOR
 public:
 
-ArrayPointer(const ArrayPointer& copy) = delete;    // NO DUPLICATION
-
-ArrayPointer(ArrayPointer&& move) noexcept:     // transfer of ownership is allowed
-    Array_(move.Array_)
+SharedArray(const SharedArray& copy) noexcept:
+    Array_(copy.Array_)
 {
-    move.Array_ = nullptr;
+    ++Count_;
 }
 
-ArrayPointer& operator = (const ArrayPointer& copy) = delete;   // NO DUPLICATION
+/// WARN: This operator had the ability to destroy the Singular Unique Pointer per Datatype Invariant of this class, and
+/// thus was deleted.
+SharedArray& operator = (const SharedArray& copy) = delete;
 
-ArrayPointer& operator = (ArrayPointer&& move) noexcept     // transfer of ownership is allowed
-{
-    if (this->Array_)
-        delete [] this->Array_;
-    this->Array_ = move.Array_;
-    move.Array_  = nullptr;
-    return *this;
-}
+////////////////////////////////////////////////////////////
+/// MOVE CONSTRUCTOR & ASSIGNMENT OPERATOR
+public:
 
-ArrayPointer& operator = (Datatype* arr) noexcept
-{
-    if (Array_)
-        delete [] Array_;
-    Array_ = arr;
-    return *this;
-}
+SharedArray(SharedArray&& move) = delete;   // transfer of ownership wouldn't make sense
+
+/// WARN: This operator had the ability to destroy the Singular Unique Pointer per Datatype Invariant of this class, and
+/// thus was deleted.
+SharedArray& operator = (SharedArray&& move) = delete;
 
 ////////////////////////////////////////////////////////////
 /// OPERATOR OVERLOADS
 public:
-
-const Datatype* operator & (void) const
-{
-    return Array_;
-}
-
-Datatype* operator & (void)
-{
-    return Array_;
-}
 
 const Datatype& operator * (void) const
 {
@@ -112,20 +106,23 @@ Datatype& operator * (void)
     return *Array_;
 }
 
-const Datatype& operator [] (u64 index) const
+const Datatype& operator [] (uSIZE index) const
 {
     return Array_[index];
 }
 
-Datatype& operator [] (u64 index)
+Datatype& operator [] (uSIZE index)
 {
     return Array_[index];
 }
 
 ////////////////////////////////////////////////////////////
-}; // end template class ArrayPointer
+}; // end template class SharedArray
+
+template <typename Datatype>
+alt::u8 SharedArray<Datatype>::Count_ = 0;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 }; // end namespace alt
 
-#endif // end ARRAYPOINTER_hpp
+#endif // end SHAREDARRAY_hpp
