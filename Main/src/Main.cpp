@@ -31,8 +31,9 @@
 #include "Vector.hpp"
 
 #include "UniquePointer.hpp"
-#include "UniqueArray.hpp"
 #include "SharedPointer.hpp"
+#include "UniqueArray.hpp"
+#include "SharedArray.hpp"
 
 #include "u128.hpp"
 

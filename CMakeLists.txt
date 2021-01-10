@@ -33,8 +33,9 @@ include_directories( Allocator )
 include_directories( Vector )
 
 include_directories( UniquePointer )
-include_directories( UniqueArray )
 include_directories( SharedPointer )
+include_directories( UniqueArray )
+include_directories( SharedArray )
 
 add_subdirectory( u128 )
 
