@@ -99,16 +99,6 @@ UniqueArray& operator = (UniqueArray&& move) noexcept     // transfer of ownersh
 /// OVERLOADED OPERATORS
 public:
 
-const Datatype* const operator & (void) const
-{
-    return Array_;
-}
-
-Datatype* const operator & (void)
-{
-    return Array_;
-}
-
 const Datatype& operator * (void) const
 {
     return *Array_;
