@@ -47,7 +47,9 @@ void TestExceptions    ( void );
 void TestAllocator     ( void );
 void TestVector        ( void );
 void TestUniquePointer ( void );
-void TestArrayPointer  ( void );
+void TestSharedPointer ( void );
+void TestUniqueArray   ( void );
+void TestSharedArray   ( void );
 void TestU128          ( void );
 
 int main(int argc, const STR const argv[])
@@ -59,7 +61,9 @@ int main(int argc, const STR const argv[])
         TestAllocator();
         TestVector();
         TestUniquePointer();
-        TestArrayPointer();
+        TestSharedPointer();
+        TestUniqueArray();
+        TestSharedArray();
         TestU128();
     }
     catch (const alt::Except& err)
@@ -117,14 +121,34 @@ void TestUniquePointer(void)
     std::cout << INFO << "UniquePointer Test Passed" << std::endl << std::endl;
 }
 
-void TestArrayPointer(void)
+void TestSharedPointer(void)
 {
     using namespace alt;
-    std::cout << INFO << "Beginning ArrayPointer Test" << std::endl;
+    std::cout << INFO << "Beginning SharedPointer Test" << std::endl;
 
     /// TODO: write tests here
 
-    std::cout << INFO << "ArrayPointer Test Passed" << std::endl << std::endl;
+    std::cout << INFO << "SharedPointer Test Passed" << std::endl << std::endl;
+}
+
+void TestUniqueArray(void)
+{
+    using namespace alt;
+    std::cout << INFO << "Beginning UniqueArray Test" << std::endl;
+
+    /// TODO: write tests here
+
+    std::cout << INFO << "UniqueArray Test Passed" << std::endl << std::endl;
+}
+
+void TestSharedArray(void)
+{
+    using namespace alt;
+    std::cout << INFO << "Beginning SharedArray Test" << std::endl;
+
+    /// TODO: write tests here
+
+    std::cout << INFO << "SharedArray Test Passed" << std::endl << std::endl;
 }
 
 void TestU128(void)
