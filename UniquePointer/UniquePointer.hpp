@@ -39,37 +39,48 @@ private:
 /// DEFAULT CONSTRUCTOR & DESTRUCTOR
 public:
 
-UniquePointer() noexcept:   // default constructor
+UniquePointer() noexcept:
     Pointer_(nullptr)
 {}
 
-~UniquePointer() noexcept   // destructor
+~UniquePointer() noexcept
 {
     if (Pointer_)
         delete Pointer_;
 }
 
 ////////////////////////////////////////////////////////////
-/// OVERLOADED CONSTRUCTOR
+/// OVERLOADED CONSTRUCTOR & ASSIGNMENT OPERATOR
 public:
 
 UniquePointer(Datatype* ptr) noexcept:
     Pointer_(ptr)
 {}
 
+UniquePointer& operator = (Datatype* ptr) noexcept
+{
+    if (Pointer_)
+        delete Pointer_;
+    Pointer_ = ptr;
+    return *this;
+}
+
 ////////////////////////////////////////////////////////////
-/// COPY CONSTRUCTOR, MOVE CONSTRUCTOR, & ASSIGNMENT OPERATOR
+/// COPY CONSTRUCTOR & ASSIGNMENT OPERATOR
 public:
 
-UniquePointer(const UniquePointer& copy) = delete;  // NO DUPLICATION
+UniquePointer(const UniquePointer& copy) = delete;                  // NO DUPLICATION
+UniquePointer& operator = (const UniquePointer& copy) = delete;     // NO DUPLICATION
 
-UniquePointer(UniquePointer&& move) noexcept:   // transfer of ownership is allowed
+////////////////////////////////////////////////////////////
+/// MOVE CONSTRUCTOR & ASSIGNMENT OPERATOR
+public:
+
+UniquePointer(UniquePointer&& move) noexcept:       // transfer of ownership is allowed
     Pointer_(move.Pointer_)
 {
     move.Pointer_ = nullptr;
 }
-
-UniquePointer& operator = (const UniquePointer& copy) = delete;     // NO DUPLICATION
 
 UniquePointer& operator = (UniquePointer&& move)    // transfer of ownership is allowed
 {
@@ -77,14 +88,6 @@ UniquePointer& operator = (UniquePointer&& move)    // transfer of ownership is 
         delete this->Pointer_;
     this->Pointer_ = move.Pointer_;
     move.Pointer_  = nullptr;
-    return *this;
-}
-
-UniquePointer& operator = (Datatype* ptr) noexcept
-{
-    if (Pointer_)
-        delete Pointer_;
-    Pointer_ = ptr;
     return *this;
 }
 
@@ -102,12 +105,12 @@ Datatype& operator * (void)
     return *Pointer_;
 }
 
-const Datatype* operator -> (void) const
+const Datatype* const operator -> (void) const
 {
     return Pointer_;
 }
 
-Datatype* operator -> (void)
+Datatype* const operator -> (void)
 {
     return Pointer_;
 }
