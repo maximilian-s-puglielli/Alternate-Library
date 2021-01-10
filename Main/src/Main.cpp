@@ -37,9 +37,126 @@
 
 #include "u128.hpp"
 
+READONLY STR TAB  = "        ";
+READONLY STR INFO = "INFO:   ";
+READONLY STR WARN = "WARN:   ";
+READONLY STR FAIL = "FAIL:   ";
+READONLY STR EXIT = "EXIT:   ";
+
+void TestExceptions    ( void );
+void TestAllocator     ( void );
+void TestVector        ( void );
+void TestUniquePointer ( void );
+void TestSharedPointer ( void );
+void TestUniqueArray   ( void );
+void TestSharedArray   ( void );
+void TestU128          ( void );
+
 int main(int argc, const STR const argv[])
 {
-    std::cout << "Testing 1, 2, 3" << std::endl;
+    std::cout << std::endl;
+    try
+    {
+        TestExceptions();
+        TestAllocator();
+        TestVector();
+        TestUniquePointer();
+        TestSharedPointer();
+        TestUniqueArray();
+        TestSharedArray();
+        TestU128();
+    }
+    catch (const alt::Except& err)
+    {
+        std::cout << EXIT << "FAILURE" << std::endl << std::endl;
+        return EXIT_FAILURE;
+    }
+    catch (const std::exception& err)
+    {
+        std::cout << EXIT << "FAILURE" << std::endl << std::endl;
+        return EXIT_FAILURE;
+    }
 
+    std::cout << EXIT << "SUCCESS" << std::endl << std::endl;
     return EXIT_SUCCESS;
+}
+
+void TestExceptions(void)
+{
+    using namespace alt;
+    std::cout << INFO << "Beginning Exceptions Test" << std::endl;
+
+    /// TODO: write tests here
+
+    std::cout << INFO << "Exceptions Test Passed" << std::endl << std::endl;
+}
+
+void TestAllocator(void)
+{
+    using namespace alt;
+    std::cout << INFO << "Beginning Allocator Test" << std::endl;
+
+    /// TODO: write tests here
+
+    std::cout << INFO << "Allocator Test Passed" << std::endl << std::endl;
+}
+
+void TestVector(void)
+{
+    using namespace alt;
+    std::cout << INFO << "Beginning Vector Test" << std::endl;
+
+    /// TODO: write tests here
+
+    std::cout << INFO << "Vector Test Passed" << std::endl << std::endl;
+}
+
+void TestUniquePointer(void)
+{
+    using namespace alt;
+    std::cout << INFO << "Beginning UniquePointer Test" << std::endl;
+
+    /// TODO: write tests here
+
+    std::cout << INFO << "UniquePointer Test Passed" << std::endl << std::endl;
+}
+
+void TestSharedPointer(void)
+{
+    using namespace alt;
+    std::cout << INFO << "Beginning SharedPointer Test" << std::endl;
+
+    /// TODO: write tests here
+
+    std::cout << INFO << "SharedPointer Test Passed" << std::endl << std::endl;
+}
+
+void TestUniqueArray(void)
+{
+    using namespace alt;
+    std::cout << INFO << "Beginning UniqueArray Test" << std::endl;
+
+    /// TODO: write tests here
+
+    std::cout << INFO << "UniqueArray Test Passed" << std::endl << std::endl;
+}
+
+void TestSharedArray(void)
+{
+    using namespace alt;
+    std::cout << INFO << "Beginning SharedArray Test" << std::endl;
+
+    /// TODO: write tests here
+
+    std::cout << INFO << "SharedArray Test Passed" << std::endl << std::endl;
+}
+
+void TestU128(void)
+{
+    using namespace alt;
+    std::cout << INFO << "Beginning u128 Test" << std::endl;
+
+    /// TODO: write tests here
+
+    std::cout << INFO << "u128 Test Passed" << std::endl << std::endl;
 }
