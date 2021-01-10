@@ -19,49 +19,52 @@
 /// AUTHOR:  Maximilian S Puglielli (MSP)
 /// CREATED: 2021.01.06
 
-#ifndef UNIQUEPOINTER_hpp
-#define UNIQUEPOINTER_hpp
+#ifndef UNIQUEARRAY_hpp
+#define UNIQUEARRAY_hpp
 
-namespace alt   // UniquePointer belongs to namespace alt
+#include "Keywords.hpp"
+#include "Types.hpp"
+
+namespace alt // UniqueArray belongs to namespace alt
 {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 template <typename Datatype>
-class UniquePointer
+class UniqueArray
 {
 ////////////////////////////////////////////////////////////
-/// RAII ENCAPSULATED POINTER
+/// RAII ENCAPSULATED ARRAY
 private:
 
-    Datatype* Pointer_;     // The encapsulated pointer.
+    Datatype* Array_;   // The encapsulated array.
 
 ////////////////////////////////////////////////////////////
 /// DEFAULT CONSTRUCTOR & DESTRUCTOR
 public:
 
-UniquePointer() noexcept:
-    Pointer_(nullptr)
+UniqueArray() noexcept:
+    Array_(nullptr)
 {}
 
-~UniquePointer() noexcept
+~UniqueArray() noexcept
 {
-    if (Pointer_)
-        delete Pointer_;
+    if (Array_)
+        delete [] Array_;
 }
 
 ////////////////////////////////////////////////////////////
 /// OVERLOADED CONSTRUCTOR & ASSIGNMENT OPERATOR
 public:
 
-UniquePointer(Datatype* ptr) noexcept:
-    Pointer_(ptr)
+UniqueArray(Datatype arr[]) noexcept:
+    Array_(arr)
 {}
 
-UniquePointer& operator = (Datatype* ptr) noexcept
+UniqueArray& operator = (Datatype arr[]) noexcept
 {
-    if (Pointer_)
-        delete Pointer_;
-    Pointer_ = ptr;
+    if (Array_)
+        delete [] Array_;
+    Array_ = arr;
     return *this;
 }
 
@@ -69,56 +72,57 @@ UniquePointer& operator = (Datatype* ptr) noexcept
 /// COPY CONSTRUCTOR & ASSIGNMENT OPERATOR
 public:
 
-UniquePointer(const UniquePointer& copy) = delete;                  // NO DUPLICATION
-UniquePointer& operator = (const UniquePointer& copy) = delete;     // NO DUPLICATION
+UniqueArray(const UniqueArray& copy) = delete;                // NO DUPLICATION
+UniqueArray& operator = (const UniqueArray& copy) = delete;   // NO DUPLICATION
 
 ////////////////////////////////////////////////////////////
 /// MOVE CONSTRUCTOR & ASSIGNMENT OPERATOR
 public:
 
-UniquePointer(UniquePointer&& move) noexcept:       // transfer of ownership is allowed
-    Pointer_(move.Pointer_)
+UniqueArray(UniqueArray&& move) noexcept:                 // transfer of ownership is allowed
+    Array_(move.Array_)
 {
-    move.Pointer_ = nullptr;
+    move.Array_ = nullptr;
 }
 
-UniquePointer& operator = (UniquePointer&& move)    // transfer of ownership is allowed
+
+UniqueArray& operator = (UniqueArray&& move) noexcept     // transfer of ownership is allowed
 {
-    if (this->Pointer_)
-        delete this->Pointer_;
-    this->Pointer_ = move.Pointer_;
-    move.Pointer_  = nullptr;
+    if (this->Array_)
+        delete [] this->Array_;
+    this->Array_ = move.Array_;
+    move.Array_  = nullptr;
     return *this;
 }
 
 ////////////////////////////////////////////////////////////
-/// OPERATORS OVERLOADS
+/// OVERLOADED OPERATORS
 public:
 
 const Datatype& operator * (void) const
 {
-    return *Pointer_;
+    return *Array_;
 }
 
 Datatype& operator * (void)
 {
-    return *Pointer_;
+    return *Array_;
 }
 
-const Datatype* const operator -> (void) const
+const Datatype& operator [] (uSIZE index) const
 {
-    return Pointer_;
+    return Array_[index];
 }
 
-Datatype* const operator -> (void)
+Datatype& operator [] (uSIZE index)
 {
-    return Pointer_;
+    return Array_[index];
 }
 
 ////////////////////////////////////////////////////////////
-}; // end template class UniquePointer
+}; // end template class UniqueArray
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 }; // end namespace alt
 
-#endif // end UNIQUEPOINTER_hpp
+#endif // end UNIQUEARRAY_hpp

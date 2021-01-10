@@ -17,82 +17,83 @@
 /// this program.  If not, see <https://www.gnu.org/licenses/>.
 ///
 /// AUTHOR:  Maximilian S Puglielli (MSP)
-/// CREATED: 2021.01.06
+/// CREATED: 2021.01.09
 
-#ifndef UNIQUEPOINTER_hpp
-#define UNIQUEPOINTER_hpp
+#ifndef SHAREDPOINTER_hpp
+#define SHAREDPOINTER_hpp
 
-namespace alt   // UniquePointer belongs to namespace alt
+#include "Keywords.hpp"
+#include "Types.hpp"
+
+namespace alt   // SharedPointer belongs to namespace alt
 {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 template <typename Datatype>
-class UniquePointer
+class SharedPointer
 {
 ////////////////////////////////////////////////////////////
-/// RAII ENCAPSULATED POINTER
+/// MEMBER VARIABLES
 private:
 
-    Datatype* Pointer_;     // The encapsulated pointer.
+    static u8 Count_;       // pointer counter
+    Datatype* Pointer_;     // RAII encapsulated pointer
 
 ////////////////////////////////////////////////////////////
 /// DEFAULT CONSTRUCTOR & DESTRUCTOR
 public:
 
-UniquePointer() noexcept:
-    Pointer_(nullptr)
-{}
+/// WARN: To preserve the Singular Unique Pointer per Datatype Invariant of this class, it is required that any
+/// SharedPointer object be given ownership of a pointer during its construction, through its constructor.
+SharedPointer() = delete;
 
-~UniquePointer() noexcept
+~SharedPointer() noexcept
 {
-    if (Pointer_)
+    if (Pointer_ && Count_ == 1)
         delete Pointer_;
+    --Count_;
 }
 
 ////////////////////////////////////////////////////////////
 /// OVERLOADED CONSTRUCTOR & ASSIGNMENT OPERATOR
 public:
 
-UniquePointer(Datatype* ptr) noexcept:
+SharedPointer(Datatype* ptr) noexcept:
     Pointer_(ptr)
-{}
-
-UniquePointer& operator = (Datatype* ptr) noexcept
 {
-    if (Pointer_)
-        delete Pointer_;
-    Pointer_ = ptr;
-    return *this;
+    ++Count_;
 }
+
+/// WARN: This operator had the ability to destroy the Singular Unique Pointer per Datatype Invariant of this class, and
+/// thus was deleted.
+SharedPointer& operator = (Datatype* ptr) = delete;
 
 ////////////////////////////////////////////////////////////
 /// COPY CONSTRUCTOR & ASSIGNMENT OPERATOR
 public:
 
-UniquePointer(const UniquePointer& copy) = delete;                  // NO DUPLICATION
-UniquePointer& operator = (const UniquePointer& copy) = delete;     // NO DUPLICATION
+SharedPointer(const SharedPointer& copy) noexcept:
+    Pointer_(copy.Pointer_)
+{
+    ++Count_;
+}
+
+/// WARN: This operator had the ability to destroy the Singular Unique Pointer per Datatype Invariant of this class, and
+/// thus was deleted.
+SharedPointer& operator = (const SharedPointer& copy) = delete;
 
 ////////////////////////////////////////////////////////////
 /// MOVE CONSTRUCTOR & ASSIGNMENT OPERATOR
 public:
 
-UniquePointer(UniquePointer&& move) noexcept:       // transfer of ownership is allowed
-    Pointer_(move.Pointer_)
-{
-    move.Pointer_ = nullptr;
-}
+SharedPointer(SharedPointer&& move) = delete;   // transfer of ownership wouldn't make sense
 
-UniquePointer& operator = (UniquePointer&& move)    // transfer of ownership is allowed
-{
-    if (this->Pointer_)
-        delete this->Pointer_;
-    this->Pointer_ = move.Pointer_;
-    move.Pointer_  = nullptr;
-    return *this;
-}
+/// WARN: This operator had the ability to destroy the Singular Unique Pointer per Datatype Invariant of this class, and
+/// thus was deleted.
+SharedPointer& operator = (SharedPointer&& move) = delete;
 
 ////////////////////////////////////////////////////////////
-/// OPERATORS OVERLOADS
+/// OPERATOR OVERLOADS
 public:
 
 const Datatype& operator * (void) const
@@ -116,9 +117,12 @@ Datatype* const operator -> (void)
 }
 
 ////////////////////////////////////////////////////////////
-}; // end template class UniquePointer
+}; // end template class SharedPointer
+
+template <typename Datatype>
+alt::u8 SharedPointer<Datatype>::Count_ = 0;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 }; // end namespace alt
 
-#endif // end UNIQUEPOINTER_hpp
+#endif // end SHAREDPOINTER_hpp
