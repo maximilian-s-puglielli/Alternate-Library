@@ -63,7 +63,7 @@ explicit Array(const i64 init_count, Datatype* const init_array) noexcept:
 	_Count(init_count),
 	_Array{0}
 {
-	if (( this->_Count > 0      )&&
+	if (( this->_Count > 0 )&&
 		( init_array != nullptr ))
 		std::memcpy(this->_Array, init_array, Datasize(this->_Count));
 }
