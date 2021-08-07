@@ -1,5 +1,5 @@
 ### Copyright (C) 2021 Maximilian S Puglielli (MSP)
-### 
+###
 ### The full copyright license belonging to this repository may be found in the
 ### parent directory in the file named 'LICENSE'.
 ###
@@ -30,6 +30,7 @@ include_directories( Exceptions )
 
 include_directories( Allocator )
 
+include_directories( Array )
 include_directories( Vector )
 
 include_directories( UniquePointer )

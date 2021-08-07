@@ -1,5 +1,5 @@
 /// Copyright (C) 2021 Maximilian S Puglielli (MSP)
-/// 
+///
 /// The full copyright license belonging to this repository may be found in the
 /// parent directory in the file named 'LICENSE'.
 ///
@@ -28,6 +28,7 @@
 
 #include "Allocator.hpp"
 
+#include "Array.hpp"
 #include "Vector.hpp"
 
 #include "UniquePointer.hpp"
@@ -45,6 +46,7 @@ READONLY STR EXIT = "EXIT:   ";
 
 void TestExceptions    ( void );
 void TestAllocator     ( void );
+void TestArray         ( void );
 void TestVector        ( void );
 void TestUniquePointer ( void );
 void TestSharedPointer ( void );
@@ -52,13 +54,14 @@ void TestUniqueArray   ( void );
 void TestSharedArray   ( void );
 void TestU128          ( void );
 
-int main(int argc, const STR const argv[])
+int main(const int argc, const STR const argv[], const STR const envp[])
 {
     std::cout << std::endl;
     try
     {
         TestExceptions();
         TestAllocator();
+        TestArray();
         TestVector();
         TestUniquePointer();
         TestSharedPointer();
@@ -99,6 +102,16 @@ void TestAllocator(void)
     /// TODO: write tests here
 
     std::cout << INFO << "Allocator Test Passed" << std::endl << std::endl;
+}
+
+void TestArray(void)
+{
+    using namespace alt;
+    std::cout << INFO << "Beginning Array Test" << std::endl;
+
+    /// TODO: write tests here
+
+    std::cout << INFO << "Array Test Passed" << std::endl << std::endl;
 }
 
 void TestVector(void)
