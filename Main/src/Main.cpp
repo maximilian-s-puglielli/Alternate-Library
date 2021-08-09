@@ -36,6 +36,8 @@
 #include "UniqueArray.hpp"
 #include "SharedArray.hpp"
 
+#include "Index.hpp"
+
 #include "u128.hpp"
 
 READONLY STR TAB  = "        ";
@@ -52,6 +54,7 @@ void TestUniquePointer ( void );
 void TestSharedPointer ( void );
 void TestUniqueArray   ( void );
 void TestSharedArray   ( void );
+void TestIndex         ( void );
 void TestU128          ( void );
 
 int main(const int argc, const STR const argv[], const STR const envp[])
@@ -67,6 +70,7 @@ int main(const int argc, const STR const argv[], const STR const envp[])
         TestSharedPointer();
         TestUniqueArray();
         TestSharedArray();
+        TestIndex();
         TestU128();
     }
     catch (const alt::Except& err)
@@ -162,6 +166,16 @@ void TestSharedArray(void)
     /// TODO: write tests here
 
     std::cout << INFO << "SharedArray Test Passed" << std::endl << std::endl;
+}
+
+void TestIndex(void)
+{
+    using namespace alt;
+    std::cout << INFO << "Beginning Index Test" << std::endl;
+
+    /// TODO: write tests here
+
+    std::cout << INFO << "Index Test Passed" << std::endl;
 }
 
 void TestU128(void)

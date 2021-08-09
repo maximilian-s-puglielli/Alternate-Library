@@ -38,6 +38,8 @@ include_directories( SharedPointer )
 include_directories( UniqueArray )
 include_directories( SharedArray )
 
+include_directories( Index )
+
 add_subdirectory( u128 )
 
 add_subdirectory( Main )
